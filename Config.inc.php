@@ -12,7 +12,7 @@ return array(
 	//模块简介
 	'introduce' => '计划任务是一项使系统在规定时间自动执行某些特定任务的功能',
 	//模块介绍地址
-	'address' => 'http://www.ztbcms.com',
+	'address' => 'http://doc.ztbcms.com/module/cron/',
 	//模块作者
 	'author' => 'ZtbCMS',
 	//作者地址
