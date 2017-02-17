@@ -14,17 +14,17 @@ return array(
 	//模块介绍地址
 	'address' => 'http://doc.ztbcms.com/module/cron/',
 	//模块作者
-	'author' => 'ZtbCMS',
+	'author' => 'ZTBCMS',
 	//作者地址
 	'authorsite' => 'http://www.ztbcms.com',
 	//作者邮箱
 	'authoremail' => 'admin@ztbcms.com',
 	//版本号，请不要带除数字外的其他字符
-	'version' => '2.0.0.2',
+	'version' => '2.0.0.3',
 	//适配最低版本，
 	'adaptation' => '3.0.0.0',
 	//签名
-	'sign' => '4a656025ae24910e7552536d7c09f587',
+	'sign' => 'd0c80c4d15b2499c2c6a5fbe57baf686',
 	//依赖模块
 	'depend' => array(),
 );
