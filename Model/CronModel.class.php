@@ -208,7 +208,7 @@ class CronModel extends Model {
 	 * @param int $day 几号， 如果是99表示当月最后一天
 	 * @param int $hour 几点
 	 * @param int $minute 每小时的几分
-     * * @return false|int|string
+     * @return false|int|string
 	 */
 	public function getNextTime($loopType, $day = 0, $hour = 0, $minute = 0) {
 		$time = time();
@@ -216,9 +216,9 @@ class CronModel extends Model {
 		$_hour = date('G', $time);
 		$_day = date('j', $time);
 		$_week = date('w', $time);
-		$_mouth = date('n', $time);
+		$_month = date('n', $time);
 		$_year = date('Y', $time);
-		$nexttime = mktime($_hour, 0, 0, $_mouth, $_day, $_year);
+		$nexttime = mktime($_hour, 0, 0, $_month, $_day, $_year);
 		switch ($loopType) {
 			case 'month':
 				//是否闰年
@@ -255,7 +255,7 @@ class CronModel extends Model {
 				$nexttime += $minute < $_minute ? 3600 + $minute * 60 : $minute * 60;
 				break;
 			case 'now':
-				$nexttime = mktime($_hour, $_minute, 0, $_mouth, $_day, $_year);
+				$nexttime = mktime($_hour, $_minute, 0, $_month, $_day, $_year);
 				$_time = $day * 24 * 60;
 				$_time += $hour * 60;
 				$_time += $minute;
