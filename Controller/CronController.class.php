@@ -7,9 +7,14 @@
 namespace Cron\Controller;
 
 use Common\Controller\AdminBase;
+use Common\Model\Model;
+use Cron\Model\CronModel;
 
 class CronController extends AdminBase {
 
+    /**
+     * @var CronModel
+     */
 	private $db;
 
 	//初始化

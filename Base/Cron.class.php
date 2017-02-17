@@ -14,6 +14,9 @@ namespace Cron\Base;
 class Cron {
 
     //任务主体
+    /**
+     * @param string $cronId
+     */
     public function run($cronId) {
 
     }
