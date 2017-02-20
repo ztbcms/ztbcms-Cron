@@ -20,11 +20,11 @@ return array(
 	//作者邮箱
 	'authoremail' => 'admin@ztbcms.com',
 	//版本号，请不要带除数字外的其他字符
-	'version' => '2.0.0.3',
+	'version' => '2.0.1.0',
 	//适配最低版本，
 	'adaptation' => '3.0.0.0',
 	//签名
-	'sign' => 'd0c80c4d15b2499c2c6a5fbe57baf686',
+	'sign' => 'd98e19e9a5eb746f5c5fe5309b3c806e',
 	//依赖模块
 	'depend' => array(),
 );
