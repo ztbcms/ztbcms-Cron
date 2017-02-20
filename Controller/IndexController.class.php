@@ -6,9 +6,8 @@
 
 namespace Cron\Controller;
 
-use Common\Controller\CMS;
 
-class IndexController extends CMS {
+class IndexController extends AuthCronController {
 
 	//初始化
 	protected function _initialize() {
