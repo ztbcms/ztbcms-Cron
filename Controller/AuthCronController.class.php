@@ -9,7 +9,7 @@ namespace Cron\Controller;
 use Common\Controller\Base;
 
 /**
- * 密钥校验
+ * 私钥校验
  */
 class AuthCronController extends Base {
 
