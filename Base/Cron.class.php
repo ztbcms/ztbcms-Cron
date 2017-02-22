@@ -11,13 +11,12 @@ namespace Cron\Base;
  *
  * @package Cron\Base
  */
-class Cron {
+abstract class Cron {
 
-    //任务主体
     /**
+     * 执行任务回调
+     *
      * @param string $cronId
      */
-    public function run($cronId) {
-
-    }
+    abstract public function run($cronId);
 }
