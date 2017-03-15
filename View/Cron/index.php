@@ -29,7 +29,7 @@
 	  ?>
       <tr>
         <td>{$r.subject}</td>
-        <td>{$r.cron_file}.class.php</td>
+        <td>{$r.cron_file}</td>
         <td>{$r.type}</td>
         <td>
           <if condition=" $r['isopen'] ">

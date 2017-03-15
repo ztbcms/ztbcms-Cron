@@ -301,14 +301,25 @@ class CronModel extends Model {
 
 	//可用计划任务执行文件
 	public function _getCronFileList() {
-		$dir = APP_PATH . "Cron/CronScript";
-		$Dirs = new \Dir($dir);
-		$fileList = $Dirs->toArray();
-		$CronFileList = array();
-		foreach ((array) $fileList AS $k => $file) {
-            $CronFileList[] = $file['filename'];
-		}
-		return $CronFileList;
+        $dir = APP_PATH;
+        $Dirs = new \Dir($dir);
+        $moduleList = $Dirs->toArray();
+        $CronFileList = array();
+        //遍历模块
+        foreach ($moduleList as $k => $module) {
+            $cronscript_filename = APP_PATH . $module['filename'] . DIRECTORY_SEPARATOR . 'CronScript';
+            if (file_exists($cronscript_filename)) {
+                $CronDirs = new \Dir($cronscript_filename);
+                $cronFiles = $CronDirs->toArray();
+                //遍历 Module/CronScript 模块下的脚本
+                foreach ($cronFiles as $index => $cronFile) {
+                    $cron_classname = str_replace('.class.php', '', $cronFile['filename']);
+                    $CronFileList[] = $module['filename'] . '\\' . 'CronScript' . '\\' . $cron_classname;
+                }
+            }
+        }
+
+        return $CronFileList;
 	}
 
 }

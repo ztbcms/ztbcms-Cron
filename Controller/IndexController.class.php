@@ -66,7 +66,7 @@ class IndexController extends AuthCronController {
 	//运行计划
 	private function _runAction($filename = '', $cronId = 0) {
 		//载入文件
-        $class = "Cron\\CronScript\\{$filename}";
+        $class = $filename;
         try {
             $cron = new $class();
             $cron->run($cronId);

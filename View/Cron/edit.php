@@ -123,9 +123,9 @@
         </tr>
         <tr>
           <th>执行文件</th>
-          <td><select class="select_4 mr5" name="cron_file">
+          <td><select class="select_6 mr5" name="cron_file">
               <volist name="fileList" id="vo">
-              <option value="{$vo|basename=###,'.class.php'}" <if condition=" $cron_file eq  basename($vo,'.class.php')">selected</if>>{$vo|basename=###,'.class.php'}</option>
+              <option value="{$vo}" <if condition=" $cron_file eq  $vo">selected</if>>{$vo}</option>
               </volist>
             </select></td>
           <td><div class="fun_tips">请选择任务php文件名称</div></td>
