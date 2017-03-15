@@ -20,7 +20,7 @@ class CronModel extends Model {
 	//自动完成
 	protected $_auto = array(
 		//array(填充字段,填充内容,填充条件,附加规则)
-		//array("created_time", "time", 1, "function"), //创建时间自动填充
+		array("created_time", "time", 1, "function"), //创建时间自动填充
 	);
 
 	//计划任务循环类型
