@@ -78,6 +78,8 @@ class IndexController extends AuthCronController {
 
     //立即运行计划任务,只允许管理员调用
     public function runAction($filename = '', $cronId = 0){
+		set_time_limit(0);
+        ignore_user_abort(true);
         if(defined("IN_ADMIN") && IN_ADMIN){
             return $this->_runAction($filename, $cronId);
         }else{
