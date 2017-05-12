@@ -7,6 +7,8 @@
 namespace Cron\Controller;
 
 
+use Cron\Model\CronLogModel;
+
 class IndexController extends AuthCronController {
 
 	//初始化
@@ -67,12 +69,28 @@ class IndexController extends AuthCronController {
 	private function _runAction($filename = '', $cronId = 0) {
 		//载入文件
         $class = $filename;
+        $start_time = 0;
+        $end_time = 0;
+        $result = CronLogModel::RESULT_SUCCESS;
         try {
             $cron = new $class();
+            $start_time = time();
             $cron->run($cronId);
+            $end_time = time();
         } catch (\Exception $exc) {
-            \Think\Log::record("计划任务:$filename，执行出错！");
+            $result = CronLogModel::RESULT_FAIL;
+            \Think\Log::write("计划任务:$filename，执行出错！");
         }
+        //日志开启时记录执行日志
+        if(C('CRON_LOG')){
+            D('Cron/CronLog')->add([
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+                'result' => $result,
+                'cron_id' => $cronId,
+            ]);
+        }
+
 		return true;
 	}
 

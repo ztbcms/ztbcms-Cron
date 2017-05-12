@@ -3,7 +3,6 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for cms_cron
 -- ----------------------------
-DROP TABLE IF EXISTS `cms_cron`;
 CREATE TABLE `cms_cron` (
   `cron_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '计划任务ID',
   `type` tinyint(2) DEFAULT '0' COMMENT '计划任务类型',
@@ -19,3 +18,12 @@ CREATE TABLE `cms_cron` (
   PRIMARY KEY (`cron_id`),
   KEY `idx_next_time` (`next_time`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='计划任务表';
+
+CREATE TABLE `cms_cron_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cron_id` int(11) NOT NULL COMMENT '计划任务ID',
+  `start_time` int(11) NOT NULL COMMENT '开始时间',
+  `end_time` int(11) NOT NULL COMMENT '结束时间',
+  `result` tinyint(2) NOT NULL DEFAULT '1' COMMENT '执行结果：1正常 2异常',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';

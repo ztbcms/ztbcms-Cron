@@ -14,6 +14,7 @@ class Demo extends Cron {
 	public function run($cronId) {
 		\Think\Log::record("我执行了计划任务事例 Demo.class.php！");
 		echo 'this is demo cron';
+		sleep(2);
 	}
 
 }

@@ -3,10 +3,10 @@
 <body class="J_scroll_fixed">
 <div class="wrap">
   
-  <Admintemplate file="Common/Nav"/>
+
 
   <div style="margin: 8px;">
-    <a class="btn btn-primary" href="{:U('Cron/Index/index')}" target="_blank">触发定时任务</a>
+      <a class="btn btn-primary" href="{:U('Cron/Cron/logs')}">计划任务日志</a>
   </div>
   <div class="table_list">
     <table width="100%">
