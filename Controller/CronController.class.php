@@ -169,7 +169,7 @@ class CronController extends AdminBase {
     }
 
     /**
-     * Cronr任务日志列表
+     * 计划任务日志列表页
      */
     function logs() {
         $cron_list = D('Cron/Cron')->select();
@@ -179,7 +179,7 @@ class CronController extends AdminBase {
     }
 
     /**
-     * 获取计划任务列表
+     * 获取计划任务列表操作
      */
     function getCronLogs() {
         $cron_id = I('cron_id');

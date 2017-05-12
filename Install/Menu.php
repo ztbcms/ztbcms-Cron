@@ -34,6 +34,18 @@ return array(
                 "status" => 0,
                 "name" => "删除计划任务",
             ),
+            array(
+                "route" => "Cron/Cron/logs",
+                "type" => 1,
+                "status" => 0,
+                "name" => "计划任务日志列表页",
+            ),
+            array(
+                "route" => "Cron/Cron/getCronLogs",
+                "type" => 1,
+                "status" => 0,
+                "name" => "获取计划任务列表操作",
+            ),
         ),
     ),
 );
