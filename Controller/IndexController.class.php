@@ -76,10 +76,11 @@ class IndexController extends AuthCronController {
             $cron = new $class();
             $start_time = time();
             $cron->run($cronId);
-            $end_time = time();
         } catch (\Exception $exc) {
             $result = CronLogModel::RESULT_FAIL;
             \Think\Log::write("计划任务:$filename，执行出错！");
+        } finally{
+            $end_time = time();
         }
         //日志开启时记录执行日志
         if(C('CRON_LOG')){
