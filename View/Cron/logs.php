@@ -31,6 +31,7 @@
                     <td align="center">开始时间</td>
                     <td align="center">结束时间</td>
                     <td align="center" width="160">耗时</td>
+                    <td align="center" width="160">执行结果</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,6 +41,14 @@
                     <td align="center">{{ item.start_time|getFormatTime }}</td>
                     <td align="center">{{ item.end_time|getFormatTime }}</td>
                     <td align="center">{{ item.end_time - item.start_time }} s</td>
+                    <td align="center">
+                        <template v-if="item.result == 1">
+                            <span style="color: green;">正常</span>
+                        </template>
+                        <template v-if="item.result == 2">
+                            <span style="color: red;">失败</span>
+                        </template>
+                    </td>
                 </tr>
                 </tbody>
             </table>
