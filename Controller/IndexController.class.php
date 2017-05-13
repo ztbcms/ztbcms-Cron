@@ -78,7 +78,7 @@ class IndexController extends AuthCronController {
             $cron->run($cronId);
         } catch (\Exception $exc) {
             $result = CronLogModel::RESULT_FAIL;
-            \Think\Log::write("计划任务:$filename，执行出错！");
+            \Think\Log::write("计划任务: {$filename} 执行出错");
         } finally{
             $end_time = time();
         }
