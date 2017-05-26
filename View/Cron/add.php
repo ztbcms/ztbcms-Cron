@@ -189,30 +189,10 @@
           <th>任务类型</th>
           <td><select id="J_type_select" name="type" class="mr10">
               <option value="0">普通计划任务</option>
-<!--              <option value="1">系统栏目刷新任务</option>-->
-<!--              <option value="2">系统自定义页面刷新任务</option>-->
-<!--              <option value="3">系统网站首页</option>-->
             </select>
           </td>
-          <td>
-<!--            <div class="fun_tips">刷新栏目：CMSRefresh_category.php，属性自定义页面：CMSRefresh_custompage.php</div>-->
-          </td>
         </tr>
-        <tr id="type1" class="J_type_item" style="display:none;">
-          <th>栏目</th>
-          <td>{$catidList}</td>
-          <td><div class="fun_tips"></div></td>
-        </tr>
-        <tr id="type2" class="J_type_item" style="display:none;">
-          <th>自定义页面</th>
-          <td>{$customtempList}</td>
-          <td><div class="fun_tips"></div></td>
-        </tr>
-        <tr id="type3" class="J_type_item" style="display:none;">
-          <th>刷新首页</th>
-          <td>注意：需要首页开启生成静态！</td>
-          <td><div class="fun_tips"></div></td>
-        </tr>
+
         <tr>
           <th>执行文件</th>
           <td><select class="select_4 mr5" name="cron_file">

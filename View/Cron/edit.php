@@ -4,7 +4,7 @@
 <div class="wrap">
 
   <Admintemplate file="Common/Nav"/>
-  <div class="h_a">添加计划任务</div>
+  <div class="h_a">编辑计划任务</div>
   <form class="J_ajaxForm"  action="{:U('Cron/edit')}" method="post">
     <div class="table_full">
       <table width="100%">
@@ -70,8 +70,11 @@
 			if ($day) $time =  $day;
 			if ($hour) $time =  $hour;
 			if ($minute) $time =  $minute;
+			if(empty($time)){
+			    $time = 1;
+            }
 			?>
-            <input type="text" class="input length_2 mr5" name="now_time" value="{$time}">
+            <input type="number" class="input length_2 mr5" name="now_time" value="{$time}">
             <select class="select_2" name="now_type">
               <option value="minute" <if condition=" $minute ">selected</if> >分钟</option>
               <option value="hour"  <if condition=" $hour ">selected</if>>小时</option>
@@ -100,27 +103,10 @@
           <th>任务类型</th>
           <td><select id="J_type_select" name="type" class="mr10">
               <option value="0">普通计划任务</option>
-              <option value="1" <if condition=" '1' eq $type ">selected</if>>系统栏目刷新任务</option>
-              <option value="2" <if condition=" '2' eq $type ">selected</if>>系统自定义页面刷新任务</option>
-              <option value="3" <if condition=" '3' eq $type ">selected</if>>系统网站首页</option>
-            </select></td>
-          <td><div class="fun_tips">刷新栏目：CMSRefresh_category.php，属性自定义页面：CMSRefresh_custompage.php</div></td>
+            </select>
+          </td>
         </tr>
-        <tr id="type1" class="J_type_item" <if condition=" '1' neq $type ">style="display:none;"</if>>
-          <th>栏目</th>
-          <td>{$catidList}</td>
-          <td><div class="fun_tips"></div></td>
-        </tr>
-        <tr id="type2" class="J_type_item" <if condition=" '2' neq $type ">style="display:none;"</if>>
-          <th>自定义页面</th>
-          <td>{$customtempList}</td>
-          <td><div class="fun_tips"></div></td>
-        </tr>
-        <tr id="type3" class="J_type_item" <if condition=" '3' neq $type ">style="display:none;"</if>>
-          <th>刷新首页</th>
-          <td>注意：需要首页开启生成静态！</td>
-          <td><div class="fun_tips"></div></td>
-        </tr>
+
         <tr>
           <th>执行文件</th>
           <td><select class="select_6 mr5" name="cron_file">

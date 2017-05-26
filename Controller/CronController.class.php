@@ -62,34 +62,7 @@ class CronController extends AdminBase {
                 $this->error($this->db->getError());
             }
         } else {
-            $tree = new \Tree();
-            //栏目列表 可以用缓存的方式
-            $array = cache("Category");
-            foreach ($array as $catid => $r) {
-                $r = getCategory($r['catid']);
-                if ($r['type'] == 2) {
-                    continue;
-                }
-
-                if (!$r['sethtml']) {
-                    unset($array[$catid]);
-                    continue;
-                }
-                $array[$catid] = $r;
-            }
-            $tree->icon = array('&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ ');
-            $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
-            $str = "<option value='\$catid' \$selected \$disabled>\$spacer \$catname</option>";
-            $tree->init($array);
-            $catidList = '<select name="catid[]" size="16" multiple="" style="width:350px;" id="catid">' . $tree->get_tree(0,
-                    $str, $parentid) . '</select>';
-            $db = M('Customtemp');
-            $array = $db->order(array("tempid" => "DESC"))->getField("tempid,name");
-            $customtempList = \Form::select($array, '',
-                'name="tempid[]" size="16" multiple="" style="width:350px;" id="catid"');
             $this->assign("fileList", $this->db->_getCronFileList());
-            $this->assign("catidList", $catidList);
-            $this->assign("customtempList", $customtempList);
             $this->display();
         }
     }
@@ -109,41 +82,10 @@ class CronController extends AdminBase {
                 $this->error("该计划任务不存在！");
             }
             list($info['day'], $info['hour'], $info['minute']) = explode('-', $info['loop_daytime']);
-            $tree = new \Tree();
-            //栏目列表 可以用缓存的方式
-            $array = cache("Category");
-            $catidarray = explode(",", $info['data']);
-            foreach ($array as $catid => $r) {
-                $r = getCategory($r['catid']);
-                if ($r['type'] == 2) {
-                    continue;
-                }
-
-                if (!$r['sethtml']) {
-                    unset($array[$catid]);
-                    continue;
-                }
-                if (in_array($catid, $catidarray)) {
-                    $r['selected'] = 'selected';
-                }
-                $array[$catid] = $r;
-            }
-            $tree->icon = array('&nbsp;&nbsp;&nbsp;│ ', '&nbsp;&nbsp;&nbsp;├─ ', '&nbsp;&nbsp;&nbsp;└─ ');
-            $tree->nbsp = '&nbsp;&nbsp;&nbsp;';
-            $str = "<option value='\$catid' \$selected \$disabled>\$spacer \$catname</option>";
-            $tree->init($array);
-            $catidList = '<select name="catid[]" size="16" multiple="" style="width:350px;" id="catid">' . $tree->get_tree(0,
-                    $str, $parentid) . '</select>';
-            $db = M('Customtemp');
-            $array = $db->order(array("tempid" => "DESC"))->getField("tempid,name");
-            $customtempList = \Form::select($array, $info['data'],
-                'name="tempid[]" size="16" multiple="" style="width:350px;" id="catid"');
 
             $this->assign($info);
             $this->assign("loopType", $this->db->_getLoopType());
             $this->assign("fileList", $this->db->_getCronFileList());
-            $this->assign("catidList", $catidList);
-            $this->assign("customtempList", $customtempList);
             $this->display();
         }
     }
