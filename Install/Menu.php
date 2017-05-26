@@ -17,6 +17,12 @@ return array(
         //子菜单列表
         "child" => array(
             array(
+                "route" => "Cron/Cron/index",
+                "type" => 1,
+                "status" => 1,
+                "name" => "计划任务列表",
+            ),
+            array(
                 "route" => "Cron/Cron/add",
                 "type" => 1,
                 "status" => 1,
