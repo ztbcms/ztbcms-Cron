@@ -191,6 +191,7 @@
               <option value="0">普通计划任务</option>
             </select>
           </td>
+          <td></td>
         </tr>
 
         <tr>
@@ -202,7 +203,6 @@
               </volist>
             </select></td>
           <td>
-<!--            <div class="fun_tips">请选择任务php文件名称</div>-->
           </td>
         </tr>
       </table>

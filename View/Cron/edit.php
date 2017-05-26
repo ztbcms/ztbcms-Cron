@@ -105,6 +105,7 @@
               <option value="0">普通计划任务</option>
             </select>
           </td>
+            <td></td>
         </tr>
 
         <tr>
@@ -114,7 +115,7 @@
               <option value="{$vo}" <if condition=" $cron_file eq  $vo">selected</if>>{$vo}</option>
               </volist>
             </select></td>
-          <td><div class="fun_tips">请选择任务php文件名称</div></td>
+          <td></td>
         </tr>
       </table>
     </div>
