@@ -3,7 +3,7 @@
 return array(
     array(
         //父菜单ID，NULL或者不写系统默认，0为顶级菜单
-        "parentid" => NULL,
+        "parentid" => 37,
         //地址，[模块/]控制器/方法
         "route" => "Cron/Cron/index",
         //类型，1：权限认证+菜单，0：只作为菜单
