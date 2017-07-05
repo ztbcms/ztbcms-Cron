@@ -127,6 +127,7 @@ class CronController extends AdminBase {
         $cron_id = I('cron_id');
         $start_date = I('start_date');
         $end_date = I('end_date');
+        $result = I('result');
         $page = I('page', 1);
         $limit = I('limit', 20);
 
@@ -141,6 +142,9 @@ class CronController extends AdminBase {
         if (!empty($end_date)) {
             $end_date = strtotime($end_date) + 24 * 60 * 60 - 1;
             $where['end_time'] = array('ELT', $end_date);
+        }
+        if (!empty($result)) {
+            $where['result'] = array('EQ', $result);
         }
 
         $count = D('Cron/CronLog')->where($where)->count();

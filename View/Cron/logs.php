@@ -19,6 +19,13 @@
             -
             <input type="text" name="end_date" class="input datepicker">
 
+            执行结果：
+            <select class="form-control" style="max-width: 80px;display: inline-block;" v-model="where.result">
+                <option value="">全部</option>
+                <option value="1">正常</option>
+                <option value="2">失败</option>
+            </select>
+
             <button class="btn btn-primary" style="margin-left: 8px;" @click="search">搜索</button>
         </div>
         <hr>
@@ -76,6 +83,7 @@
                         cron_id: '',
                         start_date: '',
                         end_date: '',
+                        result: '',
                         page: 1,
                         limit: 20
                     },
