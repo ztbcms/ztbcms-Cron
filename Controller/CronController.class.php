@@ -159,4 +159,45 @@ class CronController extends AdminBase {
         $this->ajaxReturn(self::createReturn(true, $data));
     }
 
+    /**
+     * 调度执行日志列表页
+     */
+    function scheduling_logs() {
+        $this->display();
+    }
+
+    /**
+     * 获取调度执行日志列表操作
+     */
+    function getSchedulingLogs() {
+        $start_date = I('start_date');
+        $end_date = I('end_date');
+        $page = I('page', 1);
+        $limit = I('limit', 20);
+
+        $where = array();
+        if (!empty($cron_id)) {
+            $where['cron_id'] = array('EQ', $cron_id);
+        }
+        if (!empty($start_date)) {
+            $start_date = strtotime($start_date);
+            $where['start_time'] = array('EGT', $start_date);
+        }
+        if (!empty($end_date)) {
+            $end_date = strtotime($end_date) + 24 * 60 * 60 - 1;
+            $where['end_time'] = array('ELT', $end_date);
+        }
+
+        $count = D('Cron/SchedulingLog')->where($where)->count();
+        $total_page = ceil($count / $limit);
+        $Logs = D('Cron/SchedulingLog')->where($where)->page($page)->limit($limit)->order(array("id" => "desc"))->select();
+        $data = [
+            'items' => $Logs,
+            'page' => $page,
+            'limit' => $limit,
+            'total_page' => $total_page,
+        ];
+        $this->ajaxReturn(self::createReturn(true, $data));
+    }
+
 }

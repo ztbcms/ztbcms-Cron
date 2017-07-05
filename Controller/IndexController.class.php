@@ -11,6 +11,9 @@ use Cron\Model\CronLogModel;
 
 class IndexController extends AuthCronController {
 
+    private $error_count = 0;
+    private $cron_count = 0;
+
 	//初始化
 	protected function _initialize() {
 		parent::_initialize();
@@ -33,8 +36,29 @@ class IndexController extends AuthCronController {
 		}
 		set_time_limit(0);
 		ignore_user_abort(true);
+
+		//日志信息
+		$log_data = [
+		    'start_time' => time(),
+            'end_time' => time(),
+            'use_time' => 0,
+            'error_count' => 0,
+            'cron_count' => 0,
+        ];
+
 		//执行计划任务
 		$this->runCron();
+
+		//记录执行日志
+		$log_data['end_time'] = time();
+        $log_data['use_time'] = $log_data['end_time'] - $log_data['start_time'];
+        $log_data['error_count'] = $this->error_count;
+        $log_data['cron_count'] = $this->cron_count;
+        //日志开启时记录执行日志
+        if(C('CRON_SCHEDULING_LOG')){
+            D('Cron/SchedulingLog')->add($log_data);
+        }
+
 		// 解除锁定
 		unlink($lockfile);
 	}
@@ -49,6 +73,10 @@ class IndexController extends AuthCronController {
 		if (!$cron || $cron['next_time'] > $_time) {
 			return false;
 		}
+
+		//记录cron数量
+        $this->cron_count++;
+
 		list($day, $hour, $minute) = explode('-', $cron['loop_daytime']);
 		//获取下一次执行时间
 		$nexttime = D("Cron/Cron")->getNextTime($cron['loop_type'], $day, $hour, $minute);
@@ -78,7 +106,8 @@ class IndexController extends AuthCronController {
             $cron->run($cronId);
         } catch (\Exception $exc) {
             $result = CronLogModel::RESULT_FAIL;
-            \Think\Log::write("计划任务: {$filename} 执行出错");
+            $this->error_count++;
+            \Think\Log::write("计划任务: {$filename} 执行出错, 错误消息：" . $exc->getMessage() . ' 错误栈: ' . $exc->getTraceAsString());
         } finally{
             $end_time = time();
         }

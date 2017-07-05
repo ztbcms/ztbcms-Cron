@@ -4,6 +4,7 @@
 <div class="wrap">
   <div style="margin: 8px;">
       <a class="btn btn-primary" href="{:U('Cron/Cron/logs')}">计划任务日志</a>
+      <a class="btn btn-primary" href="{:U('Cron/Cron/scheduling_logs')}">调度运行日志</a>
       <a class="btn btn-success" href="{:U('Cron/Cron/add')}">添加计划任务</a>
   </div>
   <div class="table_list">

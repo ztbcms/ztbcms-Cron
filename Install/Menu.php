@@ -52,6 +52,18 @@ return array(
                 "status" => 0,
                 "name" => "获取计划任务列表操作",
             ),
+            array(
+                "route" => "Cron/Cron/scheduling_logs",
+                "type" => 1,
+                "status" => 0,
+                "name" => "调度执行日志列表页",
+            ),
+            array(
+                "route" => "Cron/Cron/getSchedulingLogs",
+                "type" => 1,
+                "status" => 0,
+                "name" => "获取调度执行日志列表操作",
+            ),
         ),
     ),
 );

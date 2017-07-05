@@ -27,3 +27,13 @@ CREATE TABLE `cms_cron_log` (
   `result` tinyint(2) NOT NULL DEFAULT '1' COMMENT '执行结果：1正常 2异常',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
+
+CREATE TABLE `cms_cron_scheduling_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `start_time` int(11) NOT NULL,
+  `end_time` int(11) NOT NULL,
+  `use_time` int(11) NOT NULL,
+  `error_count` int(11) NOT NULL,
+  `cron_count` int(11) NOT NULL COMMENT '周期内执行计划任务次数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
