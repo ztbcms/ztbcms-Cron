@@ -28,10 +28,10 @@ CREATE TABLE `cms_cron_log` (
 
 CREATE TABLE `cms_cron_scheduling_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `start_time` int(11) NOT NULL,
-  `end_time` int(11) NOT NULL,
-  `use_time` int(11) NOT NULL,
-  `error_count` int(11) NOT NULL,
+  `start_time` int(11) NOT NULL COMMENT '开始时间',
+  `end_time` int(11) NOT NULL COMMENT '结束时间',
+  `use_time` int(11) NOT NULL COMMENT '耗时',
+  `error_count` int(11) NOT NULL COMMENT '错误数量',
   `cron_count` int(11) NOT NULL COMMENT '周期内执行计划任务次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
