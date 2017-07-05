@@ -1,6 +1,6 @@
 <extend name="../../Admin/View/Common/base_layout"/>
 
-<block name="title"><title>执行日志</title></block>
+<block name="title"><title>计划任务执行日志</title></block>
 
 <block name="content">
     <div id="app" style="padding: 8px;display: none;">
