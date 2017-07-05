@@ -15,9 +15,9 @@
                 </volist>
             </select>
             时间：
-            <input type="text" name="start_date" class="input datepicker" >
+            <input type="text" name="start_date" class="input datepicker" placeholder="开始日期">
             -
-            <input type="text" name="end_date" class="input datepicker">
+            <input type="text" name="end_date" class="input datepicker"  placeholder="结束日期">
 
             执行结果：
             <select class="form-control" style="max-width: 80px;display: inline-block;" v-model="where.result">
@@ -44,7 +44,7 @@
                 <tbody>
                 <tr v-for="item in logs">
                     <td align="center">{{ item.id }}</td>
-                    <td align="center">{{ item.cronData.cron_file }}</td>
+                    <td align="left">{{ item.cronData.cron_file }}</td>
                     <td align="center">{{ item.start_time|getFormatTime }}</td>
                     <td align="center">{{ item.end_time|getFormatTime }}</td>
                     <td align="center">{{ item.end_time - item.start_time }} s</td>
