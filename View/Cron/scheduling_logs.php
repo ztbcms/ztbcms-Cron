@@ -3,7 +3,7 @@
 <block name="title"><title>调度执行日志</title></block>
 
 <block name="content">
-    <div id="app" style="padding: 8px;display: none;">
+    <div id="app" style="padding: 8px;" v-cloak>
         <h4>调度执行日志</h4>
         <hr>
         <div class="search_type cc mb10">
@@ -125,7 +125,6 @@
                     }
                 },
                 mounted: function () {
-                    document.getElementById('app').style.display = 'block';
                     this.getList();
                 }
             });
