@@ -23,6 +23,7 @@ CREATE TABLE `cms_cron_log` (
   `start_time` int(11) NOT NULL COMMENT '开始时间',
   `end_time` int(11) NOT NULL COMMENT '结束时间',
   `result` tinyint(2) NOT NULL DEFAULT '1' COMMENT '执行结果：1正常 2异常',
+  `use_time` int(11) NOT NULL DEFAULT '0' COMMENT '耗时',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
 
