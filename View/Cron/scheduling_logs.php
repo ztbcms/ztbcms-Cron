@@ -32,7 +32,7 @@
                     <td align="center">{{ item.id }}</td>
                     <td align="center">{{ item.start_time|getFormatTime }}</td>
                     <td align="center">{{ item.end_time|getFormatTime }}</td>
-                    <td align="center">{{ item.use_time }} </td>
+                    <td align="center">{{ item.use_time }} s</td>
                     <td align="center">
                         <template v-if="item.error_count > 0">
                             <span style="color: red;">{{ item.error_count }}</span>
