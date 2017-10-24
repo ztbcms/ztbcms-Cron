@@ -128,7 +128,7 @@ class CronController extends AdminBase {
         $start_date = I('start_date');
         $end_date = I('end_date');
         $result = I('result');
-        $use_time = I('use_time');
+        $use_time = I('use_time', 0);
         $page = I('page', 1);
         $limit = I('limit', 20);
 

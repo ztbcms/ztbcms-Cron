@@ -87,7 +87,7 @@
                         result: '',
                         page: 1,
                         limit: 20,
-                        use_time: 0
+                        use_time: ''
                     },
                     logs: {},
                     temp_page: 1,
