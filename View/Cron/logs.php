@@ -19,6 +19,9 @@
             -
             <input type="text" name="end_date" class="input datepicker"  placeholder="结束日期">
 
+            耗时：
+            <input v-model="where.use_time" type="number" placeholder="耗时 > 设定值">
+
             执行结果：
             <select class="form-control" style="max-width: 80px;display: inline-block;" v-model="where.result">
                 <option value="">全部</option>
@@ -47,7 +50,7 @@
                     <td align="left">{{ item.cronData.cron_file }}</td>
                     <td align="center">{{ item.start_time|getFormatTime }}</td>
                     <td align="center">{{ item.end_time|getFormatTime }}</td>
-                    <td align="center">{{ item.end_time - item.start_time }} s</td>
+                    <td align="center">{{ item.use_time }} s</td>
                     <td align="center">
                         <template v-if="item.result == 1">
                             <span style="color: green;">正常</span>
@@ -65,9 +68,7 @@
                     <button @click="toPage( parseInt(where.page) - 1 )" class="btn btn-primary">上一页</button>
                     {{ where.page }} / {{ total_page }}
                     <button @click="toPage( parseInt(where.page) + 1 )" class="btn btn-primary">下一页</button>
-                    <span style="line-height: 30px;margin-left: 10px;"><input id="ipt_page"
-                                                                              style="width:50px;text-align: center;"
-                                                                              type="text" v-model="temp_page"></span>
+                    <span style="line-height: 30px;margin-left: 10px;"><input id="ipt_page" style="width:50px;text-align: center;" type="text" v-model="temp_page"></span>
                     <span><button class="btn btn-primary" @click="toPage( temp_page )">跳转</button></span>
                 </ul>
             </div>
@@ -85,7 +86,8 @@
                         end_date: '',
                         result: '',
                         page: 1,
-                        limit: 20
+                        limit: 20,
+                        use_time: 0
                     },
                     logs: {},
                     temp_page: 1,

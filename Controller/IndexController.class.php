@@ -118,6 +118,7 @@ class IndexController extends AuthCronController {
                 'end_time' => $end_time,
                 'result' => $result,
                 'cron_id' => $cronId,
+                'use_time' => $end_time - $start_time
             ]);
         }
 
