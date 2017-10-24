@@ -178,6 +178,7 @@ class CronController extends AdminBase {
         $end_date = I('end_date');
         $page = I('page', 1);
         $limit = I('limit', 20);
+        $use_time = I('use_time', 0);
 
         $where = array();
         if (!empty($cron_id)) {
@@ -190,6 +191,9 @@ class CronController extends AdminBase {
         if (!empty($end_date)) {
             $end_date = strtotime($end_date) + 24 * 60 * 60 - 1;
             $where['end_time'] = array('ELT', $end_date);
+        }
+        if (!empty($use_time)) {
+            $where['use_time'] = array('EGT', $use_time);
         }
 
         $count = D('Cron/SchedulingLog')->where($where)->count();

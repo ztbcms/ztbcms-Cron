@@ -12,6 +12,9 @@
             -
             <input type="text" name="end_date" class="input datepicker"  placeholder="结束日期">
 
+            耗时：
+            <input v-model="where.use_time" type="number" placeholder="耗时 > 设定值">
+
             <button class="btn btn-primary" style="margin-left: 8px;" @click="search">搜索</button>
         </div>
         <hr>
@@ -69,7 +72,8 @@
                         start_date: '',
                         end_date: '',
                         page: 1,
-                        limit: 20
+                        limit: 20,
+                        use_time: ''
                     },
                     logs: {},
                     temp_page: 1,
