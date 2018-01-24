@@ -20,6 +20,9 @@ class MigragteController extends AdminBase {
             //没有操作权限
             $this->error('非超级管理员，无法操作！');
         }
+
+        set_time_limit(0);
+        ignore_user_abort(true);
     }
 
     //2.0.1.2 => 2.1.0.0
@@ -70,13 +73,9 @@ class MigragteController extends AdminBase {
 
             $tableName = C("DB_PREFIX") . 'cron_log';
             $update_sql = "update `{$tableName}` set use_time = '{$use_time}' where id= '{$result['id']}'";
-            $r =  $db->execute($update_sql);
+            $db->execute($update_sql);
 
-            if($r){
-                $result = M('CronLog')->where(['id' => ['GT', $result['id']]])->find();
-            }else{
-                $this->log($db->getDbError());
-            }
+            $result = $db->where(['id' => ['GT', $result['id']]])->find();
         }
     }
 
