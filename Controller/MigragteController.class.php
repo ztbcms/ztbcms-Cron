@@ -52,10 +52,8 @@ class MigragteController extends AdminBase {
         $this->log('新增cron_log 表新增字段 use_time');
         if(!in_array('use_time',$fields)){
             $sql = "ALTER TABLE `{$tableName}` ADD `use_time` INT(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '耗时'";
-            $res = $db->execute($sql);
-            if($res){
-                $this->fixCronLogUsetimeField();
-            }
+            $db->execute($sql);
+            $this->fixCronLogUsetimeField();
             $this->log('新增cron_log 表新增字段 use_time  完成！');
         }else{
             $this->log('cron_log 表新增字段 use_time  已经存在');
