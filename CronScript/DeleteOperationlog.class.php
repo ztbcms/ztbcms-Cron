@@ -9,7 +9,7 @@ namespace Cron\CronScript;
 use Cron\Base\Cron;
 
 /**
- * 删除管理后台的日志(默认删除60日前的日志)
+ * 删除管理后台的日志(默认删除30日前的日志)
  *
  * 建议每日执行一次
  */
@@ -22,7 +22,7 @@ class Deleteoperationlog extends Cron {
      */
     public function run($cronId) {
         \Think\Log::record("Run:Deleteoperationlog");
-        $time = time() - 60 * 60 * 24 * 60;
+        $time = time() - 30 * 24 * 60 * 60;
         $where['time'] = array('ELT', $time);
         $res = D('Cron/Operationlog')->where($where)->delete();
         echo '删除日志记录数:' . $res;
