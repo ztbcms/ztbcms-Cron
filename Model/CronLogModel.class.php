@@ -16,6 +16,10 @@ class CronLogModel extends RelationModel {
     protected $tableName = 'cron_log';
 
     /**
+     * 运行结果：待执行
+     */
+    const RESULT_WAITING = 0;
+    /**
      * 运行结果：成功
      */
     const RESULT_SUCCESS = 1;
@@ -23,6 +27,10 @@ class CronLogModel extends RelationModel {
      * 运行结果：失败
      */
     const RESULT_FAIL = 2;
+    /**
+     * 运行结果：处理中
+     */
+    const RESULT_PROCESSING = 3;
 
     /**
      * 关联表

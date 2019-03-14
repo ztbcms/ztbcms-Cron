@@ -16,9 +16,13 @@ class Demo extends Cron {
 		\Think\Log::record("我执行了计划任务事例 Demo.class.php！");
 		echo 'this is demo cron';
 		//模拟长时间执行
-		sleep(2);
-		//模拟出错了
-        throw new Exception('突然出错了');
+		sleep(5);
+		$i = rand(1,10);
+		if($i>5){
+            //模拟出错了
+            throw new Exception('突然出错了');
+        }
+
 	}
 
 }

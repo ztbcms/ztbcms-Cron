@@ -19,7 +19,6 @@ class CronService extends BaseService
             foreach ($configs as $config) {
                 self::$_config[$config['key']] = $config['value'];
             }
-
         }
 
         return createReturn(true, self::$_config);

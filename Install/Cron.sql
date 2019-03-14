@@ -49,8 +49,8 @@ CREATE TABLE `cms_cron_config` (
 INSERT INTO `cms_cron_config` (`key`, `value`, `title`, `descrption`)
 VALUES
 	('ENABLE_CRON', '1', '是否启用', '1启动 0停止'),
-	('ENABLE_EXECUTE_LOG', '0', '任务执行日志', ''),
-	('ENABLE_SCHEDULING_LOG', '0', '任务调度日志', ''),
+	('ENABLE_EXECUTE_LOG', '1', '任务执行日志', ''),
+	('ENABLE_SCHEDULING_LOG', '1', '任务调度日志', ''),
 	('SECRET_KEY', '', '私钥', '');
 
 

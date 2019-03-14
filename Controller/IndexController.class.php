@@ -84,11 +84,6 @@ class IndexController extends AuthCronController {
 	 * 递归执行计划任务
 	 */
 	private function runCron() {
-	    //判断计划任务是否关闭
-        if($this->cron_config[CronConfigModel::KEY_ENABLE_CRON] != CronConfigModel::ENABLE_YES){
-            return false;
-        }
-
 		$_time = time();
 		$cron = D("Cron/Cron")->where(array("isopen" => array("EGT", 1)))->order(array("next_time" => "ASC"))->find();
 		//检测是否还有需要执行的任务
@@ -119,27 +114,38 @@ class IndexController extends AuthCronController {
 	private function _runAction($filename = '', $cronId = 0) {
 		//载入文件
         $class = $filename;
-        $start_time = 0;
+        $start_time = time();
         $end_time = 0;
-        $result = CronLogModel::RESULT_SUCCESS;
+        $result = CronLogModel::RESULT_PROCESSING;
+
+        $cron_log_id =  D('Cron/CronLog')->add([
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'result' => $result,
+            'cron_id' => $cronId,
+            'use_time' => 0
+        ]);
         try {
             $cron = new $class();
             $start_time = time();
             $cron->run($cronId);
+
+            //处理完成
+            $end_time = time();
+            D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
+                'result' => CronLogModel::RESULT_SUCCESS,
+                'end_time' => $end_time,
+                'use_time' => $end_time - $start_time
+            ]);
+
         } catch (\Exception $exc) {
-            $result = CronLogModel::RESULT_FAIL;
             $this->error_count++;
             \Think\Log::write("计划任务: {$filename} 执行出错, 错误消息：" . $exc->getMessage() . ' 错误栈: ' . $exc->getTraceAsString());
-        } finally{
+
             $end_time = time();
-        }
-        //日志开启时记录执行日志
-        if(C('CRON_LOG')){
-            D('Cron/CronLog')->add([
-                'start_time' => $start_time,
+            D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
+                'result' => CronLogModel::RESULT_FAIL,
                 'end_time' => $end_time,
-                'result' => $result,
-                'cron_id' => $cronId,
                 'use_time' => $end_time - $start_time
             ]);
         }

@@ -9,6 +9,7 @@ namespace Cron\Controller;
 use Common\Controller\AdminBase;
 use Common\Model\Model;
 use Cron\Model\CronModel;
+use Cron\Service\CronService;
 
 class CronController extends AdminBase {
 
@@ -208,4 +209,17 @@ class CronController extends AdminBase {
         $this->ajaxReturn(self::createReturn(true, $data));
     }
 
+
+    function getCronStatus(){
+        $cron_config = CronService::getConfig()['data'];
+
+        //TODO
+        //2、4、8、16分钟内 正在执行的计划任务数量
+        $this->ajaxReturn(createReturn(true, [
+            'cron_config' => $cron_config,
+            'cron_status' => [
+
+            ]
+        ]));
+    }
 }

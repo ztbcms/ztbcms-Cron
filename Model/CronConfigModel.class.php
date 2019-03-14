@@ -15,6 +15,10 @@ class CronConfigModel extends Model
 
     //是否启用计划任务
     const KEY_ENABLE_CRON = 'ENABLE_CRON';
+    //任务执行日志 开启状态
+    const KEY_ENABLE_EXECUTE_LOG = 'ENABLE_EXECUTE_LOG';
+    //任务调度日志 开启状态
+    const KEY_ENABLE_SCHEDULING_LOG = 'ENABLE_SCHEDULING_LOG';
 
     //是否启用
     const ENABLE_YES = 1;
