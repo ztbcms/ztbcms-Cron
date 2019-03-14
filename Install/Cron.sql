@@ -36,3 +36,21 @@ CREATE TABLE `cms_cron_scheduling_log` (
   `cron_count` int(11) NOT NULL COMMENT '周期内执行计划任务次数',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
+
+-- 配置表
+CREATE TABLE `cms_cron_config` (
+  `key` varchar(32) NOT NULL DEFAULT '' COMMENT '键',
+  `value` varchar(256) NOT NULL DEFAULT '' COMMENT '值',
+  `title` varchar(32) NOT NULL DEFAULT '' COMMENT '标题',
+  `descrption` varchar(32) NOT NULL DEFAULT '',
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `cms_cron_config` (`key`, `value`, `title`, `descrption`)
+VALUES
+	('ENABLE_CRON', '1', '是否启用', '1启动 0停止'),
+	('ENABLE_EXECUTE_LOG', '0', '任务执行日志', ''),
+	('ENABLE_SCHEDULING_LOG', '0', '任务调度日志', ''),
+	('SECRET_KEY', '', '私钥', '');
+
+

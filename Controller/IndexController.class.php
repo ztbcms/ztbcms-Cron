@@ -7,12 +7,15 @@
 namespace Cron\Controller;
 
 
+use Cron\Model\CronConfigModel;
 use Cron\Model\CronLogModel;
+use Cron\Service\CronService;
 
 class IndexController extends AuthCronController {
 
     private $error_count = 0;
     private $cron_count = 0;
+    private $cron_config = null;
 
 	//初始化
 	protected function _initialize() {
@@ -22,10 +25,19 @@ class IndexController extends AuthCronController {
 		if (empty($CRON_MAX_TIME)) {
 			C('CRON_MAX_TIME', 3000);
 		}
+
+        $this->cron_config = CronService::getConfig()['data'];
 	}
 
 	//执行计划任务
 	public function index() {
+	    $start_at = $end_at= time();
+
+        ////判断计划任务是否关闭
+	    if($this->cron_config[CronConfigModel::KEY_ENABLE_CRON] != CronConfigModel::ENABLE_YES){
+            $this->ajaxReturn(createReturn(true, ['used_time' => 0], 'Cron status: stop'));
+            return;
+        }
 		// 锁定自动执行
 		$lockfile = RUNTIME_PATH . 'cron.lock';
 		if (is_writable($lockfile) && filemtime($lockfile) > $_SERVER['REQUEST_TIME'] - C('CRON_MAX_TIME')) {
@@ -61,12 +73,22 @@ class IndexController extends AuthCronController {
 
 		// 解除锁定
 		unlink($lockfile);
+
+        $end_at = time();
+        $used_time = $end_at-$start_at;
+        $this->ajaxReturn(createReturn(true, ['used_time' => $used_time], 'Cron status: finish'));
+        return;
 	}
 
 	/**
 	 * 递归执行计划任务
 	 */
 	private function runCron() {
+	    //判断计划任务是否关闭
+        if($this->cron_config[CronConfigModel::KEY_ENABLE_CRON] != CronConfigModel::ENABLE_YES){
+            return false;
+        }
+
 		$_time = time();
 		$cron = D("Cron/Cron")->where(array("isopen" => array("EGT", 1)))->order(array("next_time" => "ASC"))->find();
 		//检测是否还有需要执行的任务
