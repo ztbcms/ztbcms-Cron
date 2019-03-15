@@ -211,6 +211,10 @@ class CronController extends AdminBase {
         $this->ajaxReturn(self::createReturn(true, $data));
     }
 
+    function dashboard(){
+        $this->display();
+    }
+
     /**
      * 获取计划任务执行状态
      * @return array
@@ -243,8 +247,9 @@ class CronController extends AdminBase {
         return $cron_execute_status;
     }
 
-    function dashboard(){
-        $this->display();
+    function getCronEntryUrl(){
+        $cron_config = CronService::getConfig()['data'];
+        return urlDomain(get_url()).'/Cron/Index/index/cron_secret_key/'.$cron_config[CronConfigModel::KEY_ENABLE_SECRET_KEY];
     }
 
     /**
@@ -256,7 +261,8 @@ class CronController extends AdminBase {
         $cron_status = $this->_getCronExecuteStatus();
         $this->ajaxReturn($this->createReturn(true, [
             'cron_config' => $cron_config,
-            'cron_status' => $cron_status
+            'cron_status' => $cron_status,
+            'cron_entry_url' => $this->getCronEntryUrl(),
         ]));
     }
 

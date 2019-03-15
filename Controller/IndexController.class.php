@@ -33,9 +33,9 @@ class IndexController extends AuthCronController {
 	public function index() {
 	    $start_at = $end_at= time();
 
-        ////判断计划任务是否关闭
+        //判断计划任务是否关闭
 	    if($this->cron_config[CronConfigModel::KEY_ENABLE_CRON] != CronConfigModel::ENABLE_YES){
-            $this->ajaxReturn($this->createReturn(true, ['used_time' => 0], 'Cron status: stop'));
+            $this->ajaxReturn($this->createReturn(false, ['used_time' => 0], 'Cron status: stop'));
             return;
         }
 		// 锁定自动执行
