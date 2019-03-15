@@ -17,6 +17,12 @@ return array(
         //子菜单列表
         "child" => array(
             array(
+                "route" => "Cron/Cron/dashboard",
+                "type" => 1,
+                "status" => 1,
+                "name" => "概览",
+            ),
+            array(
                 "route" => "Cron/Cron/index",
                 "type" => 1,
                 "status" => 1,
@@ -63,6 +69,18 @@ return array(
                 "type" => 1,
                 "status" => 0,
                 "name" => "获取调度执行日志列表操作",
+            ),
+            array(
+                "route" => "Cron/Cron/setCronEnable",
+                "type" => 1,
+                "status" => 0,
+                "name" => "设置计划任务开关",
+            ),
+            array(
+                "route" => "Cron/Cron/setCronSecretKey",
+                "type" => 1,
+                "status" => 0,
+                "name" => "设置密钥",
             ),
         ),
     ),

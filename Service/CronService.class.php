@@ -21,6 +21,17 @@ class CronService extends BaseService
             }
         }
 
-        return createReturn(true, self::$_config);
+        return self::createReturn(true, self::$_config);
     }
+
+    static function setConfig($key, $value)
+    {
+        M('CronConfig')->where([
+            'key' => $key
+        ])->save(['value' => $value]);
+
+        return self::createReturn(true, null, '操作成功');
+    }
+
+
 }

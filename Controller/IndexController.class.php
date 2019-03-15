@@ -35,7 +35,7 @@ class IndexController extends AuthCronController {
 
         ////判断计划任务是否关闭
 	    if($this->cron_config[CronConfigModel::KEY_ENABLE_CRON] != CronConfigModel::ENABLE_YES){
-            $this->ajaxReturn(createReturn(true, ['used_time' => 0], 'Cron status: stop'));
+            $this->ajaxReturn($this->createReturn(true, ['used_time' => 0], 'Cron status: stop'));
             return;
         }
 		// 锁定自动执行
@@ -52,7 +52,7 @@ class IndexController extends AuthCronController {
 		//日志信息
 		$log_data = [
 		    'start_time' => time(),
-            'end_time' => time(),
+            'end_time' => 0,
             'use_time' => 0,
             'error_count' => 0,
             'cron_count' => 0,
@@ -66,17 +66,16 @@ class IndexController extends AuthCronController {
         $log_data['use_time'] = $log_data['end_time'] - $log_data['start_time'];
         $log_data['error_count'] = $this->error_count;
         $log_data['cron_count'] = $this->cron_count;
-        //日志开启时记录执行日志
-        if(C('CRON_SCHEDULING_LOG')){
-            D('Cron/SchedulingLog')->add($log_data);
-        }
+
+        //记录执行日志
+        D('Cron/SchedulingLog')->add($log_data);
 
 		// 解除锁定
 		unlink($lockfile);
 
         $end_at = time();
         $used_time = $end_at-$start_at;
-        $this->ajaxReturn(createReturn(true, ['used_time' => $used_time], 'Cron status: finish'));
+        $this->ajaxReturn($this->createReturn(true, ['used_time' => $used_time], 'Cron status: finish'));
         return;
 	}
 

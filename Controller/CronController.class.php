@@ -8,6 +8,8 @@ namespace Cron\Controller;
 
 use Common\Controller\AdminBase;
 use Common\Model\Model;
+use Cron\Model\CronConfigModel;
+use Cron\Model\CronLogModel;
 use Cron\Model\CronModel;
 use Cron\Service\CronService;
 
@@ -209,17 +211,68 @@ class CronController extends AdminBase {
         $this->ajaxReturn(self::createReturn(true, $data));
     }
 
+    /**
+     * 获取计划任务执行状态
+     * @return array
+     */
+    function _getCronExecuteStatus(){
+        $cron_execute_status = [
+            'current_exec_amount' => 0, //正在执行任务数量
+            'current_exec_cron' => [],//正在执行任务列表
+        ];
 
+        //正在执行任务数量
+        $cronlog_list = D('Cron/CronLog')->where(['result' => CronLogModel::RESULT_PROCESSING])->select();
+        $cron_execute_status['current_exec_amount'] = count($cronlog_list);
+
+        //，正在执行任务列表
+        $exec_cron_list = [];
+        $exec_cron_map = [];
+        foreach ($cronlog_list as $i => $log) {
+            $cron = D('Cron/Cron')->where(['crod_id' => $log['cron_id']])->find();
+            if (empty($exec_cron_map[$cron['cron_id']])) {
+                $exec_cron_list [] = [
+                    'cron_id' => $cron['cron_id'],
+                    'subject' => $cron['subject'],
+                    'cron_file' => $cron['cron_file'],
+                ];
+            }
+        }
+        $cron_execute_status['current_exec_cron'] = $exec_cron_list;
+
+        return $cron_execute_status;
+    }
+
+    function dashboard(){
+        $this->display();
+    }
+
+    /**
+     * 获取计划任务状态
+     */
     function getCronStatus(){
         $cron_config = CronService::getConfig()['data'];
 
-        //TODO
-        //2、4、8、16分钟内 正在执行的计划任务数量
-        $this->ajaxReturn(createReturn(true, [
+        $cron_status = $this->_getCronExecuteStatus();
+        $this->ajaxReturn($this->createReturn(true, [
             'cron_config' => $cron_config,
-            'cron_status' => [
-
-            ]
+            'cron_status' => $cron_status
         ]));
+    }
+
+    /**
+     * 设置计划任务开关
+     */
+    function setCronEnable(){
+        $enable = I('enable');
+        $this->ajaxReturn(CronService::setConfig(CronConfigModel::KEY_ENABLE_CRON, $enable));
+    }
+
+    /**
+     * 设置密钥
+     */
+    function setCronSecretKey(){
+        $secret_key = I('secret_key');
+        $this->ajaxReturn(CronService::setConfig(CronConfigModel::KEY_ENABLE_SECRET_KEY, $secret_key));
     }
 }

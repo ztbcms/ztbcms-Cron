@@ -14,11 +14,9 @@ class CronConfigModel extends Model
     protected $tableName = 'cron_config';
 
     //是否启用计划任务
-    const KEY_ENABLE_CRON = 'ENABLE_CRON';
-    //任务执行日志 开启状态
-    const KEY_ENABLE_EXECUTE_LOG = 'ENABLE_EXECUTE_LOG';
-    //任务调度日志 开启状态
-    const KEY_ENABLE_SCHEDULING_LOG = 'ENABLE_SCHEDULING_LOG';
+    const KEY_ENABLE_CRON = 'enable_cron';
+    //密钥
+    const KEY_ENABLE_SECRET_KEY = 'secret_key';
 
     //是否启用
     const ENABLE_YES = 1;
