@@ -130,7 +130,7 @@ class CronController extends AdminBase {
         $cron_id = I('cron_id');
         $start_date = I('start_date');
         $end_date = I('end_date');
-        $result = I('result');
+        $result = I('result','');
         $use_time = I('use_time', 0);
         $page = I('page', 1);
         $limit = I('limit', 20);
@@ -147,7 +147,7 @@ class CronController extends AdminBase {
             $end_date = strtotime($end_date) + 24 * 60 * 60 - 1;
             $where['end_time'] = array('ELT', $end_date);
         }
-        if (!empty($result)) {
+        if ($result !== '') {
             $where['result'] = array('EQ', $result);
         }
         if (!empty($use_time)) {
