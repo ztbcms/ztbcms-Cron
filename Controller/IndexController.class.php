@@ -137,15 +137,30 @@ class IndexController extends AuthCronController {
                 'use_time' => $end_time - $start_time
             ]);
 
-        } catch (\Exception $exc) {
+        } catch (\Exception $exception) {
+            //异常
             $this->error_count++;
-            \Think\Log::write("计划任务: {$filename} 执行出错, 错误消息：" . $exc->getMessage() . ' 错误栈: ' . $exc->getTraceAsString());
 
             $end_time = time();
             D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
                 'result' => CronLogModel::RESULT_FAIL,
                 'end_time' => $end_time,
-                'use_time' => $end_time - $start_time
+                'use_time' => $end_time - $start_time,
+                'result_msg' => $exception->getMessage()
+            ]);
+        } catch (\Error $error){
+            //错误
+            $this->error_count++;
+
+            $errorStr =  $error->getMessage().' '.$error->getFile()." 第 " . $error->getLine() ." 行.\n";
+            $errorStr .= $error->getTraceAsString();
+
+            $end_time = time();
+            D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
+                'result' => CronLogModel::RESULT_FAIL,
+                'end_time' => $end_time,
+                'use_time' => $end_time - $start_time,
+                'result_msg' => $errorStr
             ]);
         }
 

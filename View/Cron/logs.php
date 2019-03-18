@@ -42,6 +42,7 @@
                     <td align="center">结束时间</td>
                     <td align="center" width="160">耗时</td>
                     <td align="center" width="160">执行结果</td>
+                    <td align="center" width="160">执行信息</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,6 +58,11 @@
                         </template>
                         <template v-if="item.result == 2">
                             <span style="color: red;">失败</span>
+                        </template>
+                    </td>
+                    <td align="center">
+                        <template v-if="item.result_msg">
+                            <a href="javascript:void(0)" @click="showResultMsg(item.result_msg)">查看</a>
                         </template>
                     </td>
                 </tr>
@@ -140,6 +146,18 @@
                         this.where.start_date = $('input[name="start_date"]').val();
                         this.where.end_date = $('input[name="end_date"]').val();
                         this.getList();
+                    },
+                    showResultMsg: function(result_msg){
+                        // layer.alert(result_msg)
+                        layer.open({
+                            type: 1,
+                            title: '查看',
+                            area: ['60%','60%'],
+                            closeBtn: 1,
+                            shadeClose: true,
+                            skin: 'yourclass',
+                            content: '<pre>' + result_msg + '</pre>'
+                        });
                     }
                 },
                 mounted: function () {
