@@ -124,9 +124,9 @@ VALUES
 
         } catch (\Error $error) {
             //
-            $this->log('cron_config 表添加初始数据 ，无需迁移更新');
+            $this->log('cron_config 表添加初始数据，无需迁移更新');
         } catch (\Exception $exception) {
-            $this->log('cron_config 表添加初始数据 ，无需迁移更新');
+            $this->log('cron_config 表已添加初始数据，无需迁移更新');
         }
 
         $this->log('迁移完成！');
