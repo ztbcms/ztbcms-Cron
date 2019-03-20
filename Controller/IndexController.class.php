@@ -7,28 +7,34 @@
 namespace Cron\Controller;
 
 
+use Cron\Model\CronConfigModel;
 use Cron\Model\CronLogModel;
+use Cron\Service\CronService;
 
 class IndexController extends AuthCronController {
 
     private $error_count = 0;
     private $cron_count = 0;
+    private $cron_config = null;
 
 	//初始化
 	protected function _initialize() {
 		parent::_initialize();
-		//单个任务最大执行时间
-		$CRON_MAX_TIME = C('CRON_MAX_TIME');
-		if (empty($CRON_MAX_TIME)) {
-			C('CRON_MAX_TIME', 3000);
-		}
+        $this->cron_config = CronService::getConfig()['data'];
 	}
 
 	//执行计划任务
 	public function index() {
+	    $start_at = $end_at= time();
+
+        //判断计划任务是否关闭
+	    if($this->cron_config[CronConfigModel::KEY_ENABLE_CRON] != CronConfigModel::ENABLE_YES){
+            $this->ajaxReturn($this->createReturn(false, ['used_time' => 0], 'Cron status: stop'));
+            return;
+        }
 		// 锁定自动执行
 		$lockfile = RUNTIME_PATH . 'cron.lock';
-		if (is_writable($lockfile) && filemtime($lockfile) > $_SERVER['REQUEST_TIME'] - C('CRON_MAX_TIME')) {
+		if (is_writable($lockfile)) {
 			//return;
 		} else {
 			//设置指定文件的访问和修改时间
@@ -40,7 +46,7 @@ class IndexController extends AuthCronController {
 		//日志信息
 		$log_data = [
 		    'start_time' => time(),
-            'end_time' => time(),
+            'end_time' => 0,
             'use_time' => 0,
             'error_count' => 0,
             'cron_count' => 0,
@@ -54,13 +60,17 @@ class IndexController extends AuthCronController {
         $log_data['use_time'] = $log_data['end_time'] - $log_data['start_time'];
         $log_data['error_count'] = $this->error_count;
         $log_data['cron_count'] = $this->cron_count;
-        //日志开启时记录执行日志
-        if(C('CRON_SCHEDULING_LOG')){
-            D('Cron/SchedulingLog')->add($log_data);
-        }
+
+        //记录执行日志
+        D('Cron/SchedulingLog')->add($log_data);
 
 		// 解除锁定
 		unlink($lockfile);
+
+        $end_at = time();
+        $used_time = $end_at-$start_at;
+        $this->ajaxReturn($this->createReturn(true, ['used_time' => $used_time], 'Cron status: finish'));
+        return;
 	}
 
 	/**
@@ -97,28 +107,54 @@ class IndexController extends AuthCronController {
 	private function _runAction($filename = '', $cronId = 0) {
 		//载入文件
         $class = $filename;
-        $start_time = 0;
+        $start_time = time();
         $end_time = 0;
-        $result = CronLogModel::RESULT_SUCCESS;
+        $result = CronLogModel::RESULT_PROCESSING;
+
+        $cron_log_id =  D('Cron/CronLog')->add([
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+            'result' => $result,
+            'cron_id' => $cronId,
+            'use_time' => 0
+        ]);
         try {
             $cron = new $class();
             $start_time = time();
             $cron->run($cronId);
-        } catch (\Exception $exc) {
-            $result = CronLogModel::RESULT_FAIL;
-            $this->error_count++;
-            \Think\Log::write("计划任务: {$filename} 执行出错, 错误消息：" . $exc->getMessage() . ' 错误栈: ' . $exc->getTraceAsString());
-        } finally{
+
+            //处理完成
             $end_time = time();
-        }
-        //日志开启时记录执行日志
-        if(C('CRON_LOG')){
-            D('Cron/CronLog')->add([
-                'start_time' => $start_time,
+            D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
+                'result' => CronLogModel::RESULT_SUCCESS,
                 'end_time' => $end_time,
-                'result' => $result,
-                'cron_id' => $cronId,
                 'use_time' => $end_time - $start_time
+            ]);
+
+        } catch (\Exception $exception) {
+            //异常
+            $this->error_count++;
+
+            $end_time = time();
+            D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
+                'result' => CronLogModel::RESULT_FAIL,
+                'end_time' => $end_time,
+                'use_time' => $end_time - $start_time,
+                'result_msg' => $exception->getMessage()
+            ]);
+        } catch (\Error $error){
+            //错误
+            $this->error_count++;
+
+            $errorStr =  $error->getMessage().' '.$error->getFile()." 第 " . $error->getLine() ." 行.\n";
+            $errorStr .= $error->getTraceAsString();
+
+            $end_time = time();
+            D('Cron/CronLog')->where(['id' => $cron_log_id])->save([
+                'result' => CronLogModel::RESULT_FAIL,
+                'end_time' => $end_time,
+                'use_time' => $end_time - $start_time,
+                'result_msg' => $errorStr
             ]);
         }
 

@@ -3,9 +3,9 @@
 <body class="J_scroll_fixed">
 <div class="wrap">
   <div style="margin: 8px;">
-      <a class="btn btn-primary" href="{:U('Cron/Cron/logs')}">计划任务日志</a>
-      <a class="btn btn-primary" href="{:U('Cron/Cron/scheduling_logs')}">调度运行日志</a>
-      <a class="btn btn-success" href="{:U('Cron/Cron/add')}">添加计划任务</a>
+      <button class="btn btn-primary" href="javascript:void(0)" onclick="openNewIframe('计划任务日志', '{:U("Cron/Cron/logs")}')">计划任务日志</button>
+      <button class="btn btn-primary" href="javascript:void(0)" onclick="openNewIframe('调度运行日志', '{:U("Cron/Cron/scheduling_logs")}')">调度运行日志</button>
+      <button class="btn btn-success" href="javascript:void(0)" onclick="openNewIframe('添加计划任务', '{:U("Cron/Cron/add")}')">添加计划任务</button>
   </div>
   <div class="table_list">
     <table width="100%">
@@ -42,7 +42,7 @@
         <td>
            <a href="{:U('Cron/edit',array('cron_id'=>$r['cron_id']))}" class="mr5"> 编辑 </a>
           |  <a class="J_ajax_del" href="{:U('Cron/delete',array('cron_id'=>$r['cron_id']))}"> 删除 </a>
-          |  <a target="_blank" href="{:U('Cron/runAction',array('cron_id'=>$r['cron_id'], 'cron_file' => $r['cron_file'], 'cron_secret_key' => C('CRON_SECRET_KEY')))}"> 立即执行 </a>
+          |  <a target="_blank" href="{:U('Cron/runAction',array('cron_id'=>$r['cron_id'], 'cron_file' => $r['cron_file'], 'cron_secret_key' => $cron_config['secret_key']))}"> 立即执行 </a>
         </td>
       </tr>
       </volist>
@@ -76,6 +76,17 @@ $(function(){
 			}
 		}, 'json');
 	});
+
+    window.openNewIframe = function (title, url) {
+        if (parent.window != window) {
+            parent.window.__adminOpenNewFrame({
+                title: title,
+                url: url
+            })
+        } else {
+            window.location.href = url;
+        }
+    }.bind(this)
 });
 </script>
 </body>

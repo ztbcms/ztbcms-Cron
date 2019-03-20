@@ -25,8 +25,10 @@
             执行结果：
             <select class="form-control" style="max-width: 80px;display: inline-block;" v-model="where.result">
                 <option value="">全部</option>
+                <option value="0">待执行</option>
                 <option value="1">正常</option>
                 <option value="2">失败</option>
+                <option value="3">执行中</option>
             </select>
 
             <button class="btn btn-primary" style="margin-left: 8px;" @click="search">搜索</button>
@@ -42,6 +44,7 @@
                     <td align="center">结束时间</td>
                     <td align="center" width="160">耗时</td>
                     <td align="center" width="160">执行结果</td>
+                    <td align="center" width="160">执行信息</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,11 +55,22 @@
                     <td align="center">{{ item.end_time|getFormatTime }}</td>
                     <td align="center">{{ item.use_time }} s</td>
                     <td align="center">
+                        <template v-if="item.result == 0">
+                            <span>待执行</span>
+                        </template>
                         <template v-if="item.result == 1">
                             <span style="color: green;">正常</span>
                         </template>
                         <template v-if="item.result == 2">
                             <span style="color: red;">失败</span>
+                        </template>
+                        <template v-if="item.result == 3">
+                            <span>执行中</span>
+                        </template>
+                    </td>
+                    <td align="center">
+                        <template v-if="item.result_msg">
+                            <a href="javascript:void(0)" @click="showResultMsg(item.result_msg)">查看</a>
                         </template>
                     </td>
                 </tr>
@@ -140,6 +154,18 @@
                         this.where.start_date = $('input[name="start_date"]').val();
                         this.where.end_date = $('input[name="end_date"]').val();
                         this.getList();
+                    },
+                    showResultMsg: function(result_msg){
+                        // layer.alert(result_msg)
+                        layer.open({
+                            type: 1,
+                            title: '查看',
+                            area: ['60%','60%'],
+                            closeBtn: 1,
+                            shadeClose: true,
+                            skin: 'yourclass',
+                            content: '<pre>' + result_msg + '</pre>'
+                        });
                     }
                 },
                 mounted: function () {
