@@ -247,7 +247,7 @@ class CronController extends AdminBase {
         return $cron_execute_status;
     }
 
-    function getCronEntryUrl(){
+    function _getCronEntryUrl(){
         $cron_config = CronService::getConfig()['data'];
         return urlDomain(get_url()).'/Cron/Index/index/cron_secret_key/'.$cron_config[CronConfigModel::KEY_ENABLE_SECRET_KEY];
     }
@@ -262,7 +262,7 @@ class CronController extends AdminBase {
         $this->ajaxReturn($this->createReturn(true, [
             'cron_config' => $cron_config,
             'cron_status' => $cron_status,
-            'cron_entry_url' => $this->getCronEntryUrl(),
+            'cron_entry_url' => $this->_getCronEntryUrl(),
         ]));
     }
 
