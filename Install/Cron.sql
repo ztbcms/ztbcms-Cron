@@ -22,9 +22,11 @@ CREATE TABLE `cms_cron_log` (
   `cron_id` int(11) NOT NULL COMMENT '计划任务ID',
   `start_time` int(11) NOT NULL COMMENT '开始时间',
   `end_time` int(11) NOT NULL COMMENT '结束时间',
-  `result` tinyint(2) NOT NULL DEFAULT '1' COMMENT '执行结果：1正常 2异常',
+  `result` tinyint(2) NOT NULL DEFAULT '1' COMMENT '执行结果：0待执行 1正常 2异常 3执行中',
   `use_time` int(11) NOT NULL DEFAULT '0' COMMENT '耗时',
-  PRIMARY KEY (`id`)
+  `result_msg` text COMMENT '执行日志信息',
+  PRIMARY KEY (`id`),
+  KEY `result` (`result`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
 
 CREATE TABLE `cms_cron_scheduling_log` (
@@ -36,3 +38,19 @@ CREATE TABLE `cms_cron_scheduling_log` (
   `cron_count` int(11) NOT NULL COMMENT '周期内执行计划任务次数',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
+
+-- 配置表
+CREATE TABLE `cms_cron_config` (
+  `key` varchar(32) NOT NULL DEFAULT '' COMMENT '键',
+  `value` varchar(256) NOT NULL DEFAULT '' COMMENT '值',
+  `title` varchar(32) NOT NULL DEFAULT '' COMMENT '标题',
+  `descrption` varchar(32) NOT NULL DEFAULT '',
+  UNIQUE KEY `key` (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `cms_cron_config` (`key`, `value`, `title`, `descrption`)
+VALUES
+	('enable_cron', '1', '是否启用', '1启动 0停止'),
+	('secret_key', '', '私钥', '');
+
+
