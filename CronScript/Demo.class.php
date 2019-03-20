@@ -23,7 +23,7 @@ class Demo extends Cron
         $i = rand(1, 10);
         //0-3 正常
         if ($i <= 3) {
-            echo 'this is demo cron';
+            var_dump('this is demo cron');
         }
         //3-6 异常
         if ($i > 3 && $i <= 6) {
@@ -35,6 +35,8 @@ class Demo extends Cron
             //模拟错误
             test();
         }
+
+        var_dump('finish..');
 
     }
 

@@ -51,8 +51,11 @@ class CronController extends AdminBase {
             $cron['type'] .= $minute ? $minute . '分' : '00分';
         }
 
+        $cron_config = CronService::getConfig()['data'];
+
         $this->assign("data", $data);
         $this->assign("Page", $page->show());
+        $this->assign("cron_config", $cron_config);
         $this->display();
     }
 

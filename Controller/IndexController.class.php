@@ -20,12 +20,6 @@ class IndexController extends AuthCronController {
 	//初始化
 	protected function _initialize() {
 		parent::_initialize();
-		//单个任务最大执行时间
-		$CRON_MAX_TIME = C('CRON_MAX_TIME');
-		if (empty($CRON_MAX_TIME)) {
-			C('CRON_MAX_TIME', 3000);
-		}
-
         $this->cron_config = CronService::getConfig()['data'];
 	}
 
@@ -40,7 +34,7 @@ class IndexController extends AuthCronController {
         }
 		// 锁定自动执行
 		$lockfile = RUNTIME_PATH . 'cron.lock';
-		if (is_writable($lockfile) && filemtime($lockfile) > $_SERVER['REQUEST_TIME'] - C('CRON_MAX_TIME')) {
+		if (is_writable($lockfile)) {
 			//return;
 		} else {
 			//设置指定文件的访问和修改时间
