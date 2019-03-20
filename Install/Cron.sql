@@ -50,7 +50,7 @@ CREATE TABLE `cms_cron_config` (
 
 INSERT INTO `cms_cron_config` (`key`, `value`, `title`, `descrption`)
 VALUES
-	('enable_cron', '0', '是否启用', '1启动 0停止'),
-	('secret_key', 'fuckmycar', '私钥', '');
+	('enable_cron', '1', '是否启用', '1启动 0停止'),
+	('secret_key', '', '私钥', '');
 
 
