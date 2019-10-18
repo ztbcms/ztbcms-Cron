@@ -27,7 +27,7 @@ CREATE TABLE `cms_cron_log` (
   `result_msg` text COMMENT '执行日志信息',
   PRIMARY KEY (`id`),
   KEY `result` (`result`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
 
 CREATE TABLE `cms_cron_scheduling_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE `cms_cron_scheduling_log` (
   `error_count` int(11) NOT NULL COMMENT '错误数量',
   `cron_count` int(11) NOT NULL COMMENT '周期内执行计划任务次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
 
 -- 配置表
 CREATE TABLE `cms_cron_config` (
