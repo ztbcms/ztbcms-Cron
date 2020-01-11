@@ -7,7 +7,7 @@ CREATE TABLE `cms_cron` (
   `subject` varchar(50) NOT NULL DEFAULT '' COMMENT '计划任务名称',
   `loop_type` varchar(10) NOT NULL DEFAULT '' COMMENT '循环类型month/week/day/hour/now',
   `loop_daytime` varchar(50) NOT NULL DEFAULT '' COMMENT '循环类型时间（日-时-分）',
-  `cron_file` varchar(50) NOT NULL DEFAULT '' COMMENT '计划任务执行文件',
+  `cron_file` varchar(512) NOT NULL DEFAULT '' COMMENT '计划任务执行文件',
   `isopen` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '是否开启 0 否，1是，2系统任务',
   `created_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '计划任务创建时间',
   `modified_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '计划任务上次执行结束时间',
@@ -27,7 +27,7 @@ CREATE TABLE `cms_cron_log` (
   `result_msg` text COMMENT '执行日志信息',
   PRIMARY KEY (`id`),
   KEY `result` (`result`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='计划任务执行日志';
 
 CREATE TABLE `cms_cron_scheduling_log` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,7 @@ CREATE TABLE `cms_cron_scheduling_log` (
   `error_count` int(11) NOT NULL COMMENT '错误数量',
   `cron_count` int(11) NOT NULL COMMENT '周期内执行计划任务次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='调度运行日志';
 
 -- 配置表
 CREATE TABLE `cms_cron_config` (
