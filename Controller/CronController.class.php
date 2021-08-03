@@ -28,7 +28,8 @@ class CronController extends AdminBase {
 
     public function index() {
         $count = $this->db->count();
-        $page = $this->page($count, 20);
+        $p = I('page', 1);
+        $page = $this->page($count, 20, $p);
         $data = $this->db->limit($page->firstRow . ',' . $page->listRows)->order(array("cron_id" => "DESC"))->select();
         //created_time 上次执行时间
         //next_time 下次执行时间
